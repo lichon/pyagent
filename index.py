@@ -5,7 +5,8 @@ __version__ = '3.2.0'
 __password__ = 'lichon'
 __hostsdeny__ = ()  # __hostsdeny__ = ('.youtube.com', '.youku.com')
 __content_type__ = 'image/gif'
-__timeout__ = 20
+__timeout__ = 50
+__fetchmax__ = 5
 
 try:
     import gevent
@@ -139,7 +140,7 @@ def application(environ, start_response):
         raise StopIteration
 
     timeout = int(kwargs.get('timeout') or __timeout__)
-    fetchmax = int(kwargs.get('fetchmax') or 3)
+    fetchmax = int(kwargs.get('fetchmax') or __fetchmax__)
     ConnectionType = httplib.HTTPSConnection if scheme == 'https' else httplib.HTTPConnection
     header_sent = False
     try:
