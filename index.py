@@ -43,8 +43,7 @@ import Queue
 
 normcookie = functools.partial(re.compile(', ([^ =]+(?:=|$))').sub, '\\r\\nSet-Cookie: \\1')
 
-def message_html(title, banner, detail=''):
-    MESSAGE_TEMPLATE = '''
+MESSAGE_TEMPLATE = '''
     <html><head>
     <meta http-equiv="content-type" content="text/html;charset=utf-8">
     <title>$title</title>
@@ -71,6 +70,8 @@ def message_html(title, banner, detail=''):
     <table width=100% cellpadding=0 cellspacing=0><tr><td bgcolor=#3366cc><img alt="" width=1 height=4></td></tr></table>
     </body></html>
     '''
+
+def message_html(title, banner, detail=''):
     return string.Template(MESSAGE_TEMPLATE).substitute(title=title, banner=banner, detail=detail)
 
 
@@ -118,7 +119,7 @@ def application(environ, start_response):
     if environ['REQUEST_METHOD'] == 'GET':
         if environ['PATH_INFO'] == '/':
             start_response('200 OK', [('Content-Type', 'text/html; charset=UTF-8')])
-            yield message_html('test goooagent', 'hello agent', detail='welcome! hello world')
+            yield 'agent works'
         else:
             start_response('403 Forbidden', [('Content-Type', 'text/html')])
         raise StopIteration
