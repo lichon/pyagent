@@ -170,10 +170,7 @@ def application(environ, start_response):
         header_sent = True
         if response.getheader('Set-Cookie'):
             response.msg['Set-Cookie'] = normcookie(response.getheader('Set-Cookie'))
-        content = 'HTTP/1.1 %s %s\r\n%s\r\n' % (
-            response.status,
-            httplib.responses.get(response.status, 'Unknown'),
-            ''.join('%s: %s\r\n' % (k.title(), v) for k, v in response.getheaders()))
+        content = 'HTTP/1.1 %s %s\r\n%s\r\n' % (response.status, httplib.responses.get(response.status, 'Unknown'), ''.join('%s: %s\r\n' % (k.title(), v) for k, v in response.getheaders() if k.title() != 'Transfer-Encoding'))
         if need_encrypt:
             content = cipher.encrypt(content)
         yield content
